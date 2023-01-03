@@ -1,0 +1,23 @@
+name: Deploy to AWS
+on:
+  push:
+    branches:
+      - main
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Run tests
+        run: |
+          # Run your tests here
+          # For example:
+          PHPUnit
+      - name: Deploy to AWS
+        uses: aws-actions/upload-to-s3@v1
+        if: success()
+        with:
+          bucket: my-website-bucket
+          region: us-east-1
+          source: .
+          acl: public-read
